@@ -15,6 +15,8 @@ import * as Yup from 'yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useEffect, useState } from 'react';
+import { auth } from '../firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login() {
   const router = useRouter();
@@ -77,10 +79,12 @@ export default function Login() {
       .required('A senha é obrigatória'),
   });
 
-  const handleLogin = (values: { email: string; password: string }) => {
-    console.log(values);
-    Alert.alert('Login efetuado', `Bem-vindo, ${values.email}`);
-    router.replace('/(tabs)');
+  const handleLogin = async (values: { email: string; password: string }) => {
+    const { email, password } = values;
+
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(user => router.replace('/(tabs)'))
+      .catch(error => Alert.alert('Erro', 'Login ou senha incorreta!'))
   };
 
   return (

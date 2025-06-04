@@ -1,23 +1,21 @@
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeAuth, getReactNativePersistence, getAuth, Auth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBR06BX7zc56AaUSSytxfjgg7n9algETl4",
-  authDomain: "meusaldus.firebaseapp.com",
-  projectId: "meusaldus",
-  storageBucket: "meusaldus.firebasestorage.app",
-  messagingSenderId: "575943004858",
-  appId: "1:575943004858:web:795dd7f80996664528e883"
+export const firebaseConfig = {
+  apiKey: process.env.EXPO_PUBLIC_apiKey,
+  authDomain: process.env.EXPO_PUBLIC_authDomain,
+  databaseURL: process.env.EXPO_PUBLIC_databaseURL,
+  projectId: process.env.EXPO_PUBLIC_projectId,
+  storageBucket: process.env.EXPO_PUBLIC_storageBucket,
+  messagingSenderId: process.env.EXPO_PUBLIC_messagingSenderId,
+  appId: process.env.EXPO_PUBLIC_appId
 };
 
 const app = initializeApp(firebaseConfig);
 
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),
-});
-
+const auth = getAuth(app);
 const db = getFirestore(app);
 
 export { auth, db };

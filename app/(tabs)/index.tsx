@@ -1,14 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { transactions } from '../../data-mock';
+import { auth, db } from '../../firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 
-const userName = 'John Doe';
 const balance = 1500.75;
 
 export default function Home() {
     const [showBalance, setShowBalance] = useState(true);
+    const [user, setUser] = useState<any>({
+        email:'',
+        name: ''
+    })
+
+    useEffect(() => {
+        if (auth.currentUser) {
+            getDoc(doc(db, 'users', auth.currentUser.uid))
+                .then(dados => setUser(dados.data()))
+        }
+    }, [])
 
     const toggleBalance = () => setShowBalance(!showBalance);
 
@@ -16,7 +28,7 @@ export default function Home() {
         <View style={styles.container}>
             <View style={styles.card}>
                 <View style={styles.header}>
-                    <Text style={styles.greeting}>Olá, {userName}</Text>
+                    <Text style={styles.greeting}>Olá, {user.name}</Text>
                     <TouchableOpacity onPress={toggleBalance}>
                         <Ionicons
                             name={showBalance ? 'eye-outline' : 'eye-off-outline'}

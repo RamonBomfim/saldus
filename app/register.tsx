@@ -2,6 +2,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } fro
 import { useRouter } from 'expo-router';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { auth, db } from '../firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
 
 export default function Register() {
   const router = useRouter();
@@ -21,10 +24,18 @@ export default function Register() {
       .required('Confirme sua senha'),
   });
 
-  const handleRegister = (values: { name: string; email: string; password: string; confirmPassword: string }) => {
-    console.log(values);
-    Alert.alert('Cadastro realizado', `Bem-vindo, ${values.name}`);
-    router.push('/login');
+  const handleRegister = async (values: { name: string; email: string; password: string; confirmPassword: string }) => {
+    const { name, email, password } = values;
+
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(async (user) => {
+        await setDoc(doc(db, 'users', user.user.uid), {
+          name, email
+        })
+
+        router.push('/login');
+      })
+      .catch(error => Alert.alert('Erro', 'Não foi possível criar o usuário, tente novamente.'))
   };
 
   return (
