@@ -35,7 +35,7 @@ export default function Register() {
 
         router.push('/login');
       })
-      .catch(error => Alert.alert('Erro', 'Não foi possível criar o usuário, tente novamente.'))
+      .catch(error => Alert.alert('Erro', 'Não foi possível criar o usuário, tente novamente.' + error))
   };
 
   return (

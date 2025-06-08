@@ -61,7 +61,7 @@ export default function TabsLayout() {
             />
 
             <Tabs.Screen
-                name="settings"
+                name="settings/index"
                 options={{
                     title: 'Configurações',
                     tabBarIcon: ({ color, size }) => (
@@ -69,16 +69,13 @@ export default function TabsLayout() {
                     ),
                 }}
             />
+
+            <Tabs.Screen
+                name="settings/edit-profile"
+                options={{
+                    href: null,
+                }}
+            />
         </Tabs>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#212529',
-        alignItems: 'center',
-        paddingVertical: 8,
-        gap: 8,
-    },
-});

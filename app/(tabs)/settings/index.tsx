@@ -1,9 +1,11 @@
-import { View, Text, Switch, StyleSheet, Alert } from 'react-native';
+import { View, Text, Switch, StyleSheet, Alert, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
 
 export default function Settings() {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -25,6 +27,12 @@ export default function Settings() {
     <View style={styles.container}>
       <Text style={styles.title}>Configurações</Text>
 
+      <Text style={styles.sectionTitle}>Perfil</Text>
+      <Pressable style={styles.optionContainer} onPress={() => router.push('/(tabs)/settings/edit-profile')}>
+        <Text style={styles.optionText}>Editar informações</Text>
+      </Pressable>
+
+      <Text style={styles.sectionTitle}>Preferências</Text>
       <View style={styles.optionContainer}>
         <Text style={styles.optionText}>Desbloqueio por biometria</Text>
         <Switch
@@ -50,6 +58,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 30,
   },
+  sectionTitle: {
+    color: '#ADB5BD',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10,
+  },
   optionContainer: {
     backgroundColor: '#343A40',
     borderColor: '#495057',
@@ -59,6 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
   optionText: {
     color: '#F8F9FA',
