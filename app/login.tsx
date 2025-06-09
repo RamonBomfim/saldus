@@ -163,6 +163,15 @@ export default function Login() {
             >
               <Text style={styles.buttonText}>Tentar novamente</Text>
             </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.button} 
+              onPress={() => {
+                toggleBiometric(false)
+                setShowBiometricModal(false)
+              }}
+            >
+              <Text style={styles.buttonText}>Usar senha</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

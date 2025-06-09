@@ -181,10 +181,10 @@ export default function Home() {
                   <Text
                     style={[
                       styles.transactionAmount,
-                      { color: item.value < 0 ? "#f94144" : "#90be6d" },
+                      { color: item.type === "saida" ? "#f94144" : "#90be6d" },
                     ]}
                   >
-                    {item.value < 0 ? "- " : "+ "}R${" "}
+                    {item.type === "saida" ? "- " : "+ "}R${" "}
                     {Math.abs(item.value).toFixed(2)}
                   </Text>
                 </View>
